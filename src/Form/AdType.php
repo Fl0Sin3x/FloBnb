@@ -20,17 +20,18 @@ class AdType extends AbstractType
      *
      * @param $label
      * @param $placeholder
+     * @param array $options
      * @return array
      */
 
-    private function getConfiguration($label,$placeholder){
+    private function getConfiguration($label,$placeholder, $options= []){
 
-        return [
+        return array_merge([
             'label'=>$label,
             'attr' => [
                 'placeholder'=>$placeholder
             ]
-        ];
+        ], $options);
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -41,7 +42,8 @@ class AdType extends AbstractType
                 $this->getConfiguration("Titre","Titre de l'annonce"))
             ->add('slug',
                 TextType::class,
-                $this->getConfiguration("Adresse web","Tapez l'adresse web (automatique)"))
+                $this->getConfiguration("Adresse web","Tapez l'adresse web (automatique)", [
+                    'required'=> false]))
             ->add('coverImage',
                 UrlType::class,
                 $this->getConfiguration("Url de l'image principal","Image de couverture de votre bien"))
