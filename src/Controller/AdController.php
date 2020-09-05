@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Ad;
+use App\Entity\Image;
 use App\Form\AdType;
+use App\Form\ImageType;
 use App\Repository\AdRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -36,6 +38,12 @@ class AdController extends AbstractController
 
     public function create(Request $request, EntityManagerInterface $manager){
         $ad = new Ad();
+
+        $image = new Image();
+
+        $image->setUrl('http://placehold.it/400x200')
+                ->setCaption('Titre 1');
+        $ad->addImage($image);
 
         $form= $this->createForm(AdType::class, $ad);
 
