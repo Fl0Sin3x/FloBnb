@@ -9,6 +9,7 @@ use App\Form\ImageType;
 use App\Repository\AdRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -91,6 +92,7 @@ class AdController extends AbstractController
      * Permet d'afficher le formulaire d'édition
      *
      * @Route("/ads/{slug}/edit", name="ads_edit")
+     * @Security("is_granted('ROLE_USER') and user === ad.getAuthor()", message="Cette annonce ne vous appartient pas, vous ne pouvez pas la modifier")
      *
      */
     public function edit(Request $request, Ad $ad,EntityManagerInterface $manager ){
