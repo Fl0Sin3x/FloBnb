@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\PasswordUpdate;
 use App\Entity\User;
 use App\Form\AccountType;
+use App\Form\PasswordUpdateType;
 use App\Form\RegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -101,9 +103,51 @@ class AccountController extends AbstractController
                 'Les modifications de votre profile ont été enregistrer avec succès '
             );
 
-            return $this->render('account/profile.html.twig', [
-                'form' => $form->createView()
-            ]);
         }
+        return $this->render('account/profile.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * Permet de modifier le mot de passe
+     *
+     * @Route("/account/password-update", name="account_password")
+     */
+    public function updatePassword(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder){
+        $passwordUpdate = new PasswordUpdate();
+
+        $user = $this->getUser();
+
+        $form = $this->createForm(PasswordUpdateType::class, $passwordUpdate);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+           // 1.Vérifier que le oldPassword du formulaire soit le même que le password de l'user
+            if(!password_verify($passwordUpdate->getOldPassword(), $user->getHash() )){
+             //Gérer l'erreur
+
+            } else{
+                $newPassword = $passwordUpdate->getNewPassword();
+                $hash = $encoder->encodePassword($user, $newPassword);
+
+                $user->setHash($hash);
+                $manager->persist($user);
+                $manager->flush();
+
+                $this->addFlash(
+                    'success',
+                    'Votre mot de passe à bien été modifié '
+                );
+
+                return $this->redirectToRoute('homepage');
+            }
+        }
+
+        return $this->render('account/password.html.twig', [
+            'form' => $form->createView()
+        ]);
+
     }
 }
