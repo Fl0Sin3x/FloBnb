@@ -26,7 +26,7 @@ class AdController extends AbstractController
 
         $ads = $repository->findAll();
 
-        return $this->render('ad/index.html.twig', [
+        return $this->render('ad/book.html.twig', [
             'ads' => $ads,
         ]);
     }
