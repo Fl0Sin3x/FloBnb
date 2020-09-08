@@ -30,3 +30,8 @@ div.carousel-caption{
     max-height: 648px;
     border-radius: 50%;
 }
+
+.avatar-mini {
+    max-width: 35px;
+    max-height: 35px;
+}
