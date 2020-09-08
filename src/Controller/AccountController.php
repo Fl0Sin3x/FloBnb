@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\AccountType;
 use App\Form\RegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,8 +28,8 @@ class AccountController extends AbstractController
         $username = $utils->getLastUsername();
 
         return $this->render('account/login.html.twig', [
-            'hasError'=> $error !== null,
-            'username'=> $username
+            'hasError' => $error !== null,
+            'username' => $username
         ]);
     }
 
@@ -37,7 +38,8 @@ class AccountController extends AbstractController
      *
      * @Route("/logout", name="account_logout")
      */
-    public function logout(){
+    public function logout()
+    {
         //...rien
     }
 
@@ -48,7 +50,8 @@ class AccountController extends AbstractController
      *
      * @return Response
      */
-    public function register(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder){
+    public function register(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+    {
         $user = new User();
 
         $form = $this->createForm(RegistrationType::class, $user);
@@ -56,23 +59,51 @@ class AccountController extends AbstractController
         $form->handleRequest($request);
 
 
-        if($form->isSubmitted() && $form->isValid()){
-                $hash = $encoder->encodePassword($user, $user->getHash());
-                $user->setHash($hash);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $hash = $encoder->encodePassword($user, $user->getHash());
+            $user->setHash($hash);
 
-                $manager->persist($user);
-                $manager->flush();
+            $manager->persist($user);
+            $manager->flush();
 
-                $this->addFlash(
-                    'success',
-                    'Votre compte a bien été créé ! Vous pouvez maintenant vous connecter'
-                );
+            $this->addFlash(
+                'success',
+                'Votre compte a bien été créé ! Vous pouvez maintenant vous connecter'
+            );
 
-                return $this->redirectToRoute('account_login');
-            }
+            return $this->redirectToRoute('account_login');
+        }
 
-        return $this->render('account/registration.html.twig',[
+        return $this->render('account/registration.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * Permet d'afficher et de traiter le formulaire de modification du profil
+     * @Route("/account/profile", name="account_profil")
+     */
+    public function profile(Request $request, EntityManagerInterface $manager)
+    {
+
+        $user = $this->getUser();
+
+        $form = $this->createForm(AccountType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($user);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                'Les modifications de votre profile ont été enregistrer avec succès '
+            );
+
+            return $this->render('account/profile.html.twig', [
+                'form' => $form->createView()
+            ]);
+        }
     }
 }
