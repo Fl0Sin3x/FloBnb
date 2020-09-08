@@ -9,6 +9,7 @@ use App\Form\ImageType;
 use App\Repository\AdRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,6 +35,7 @@ class AdController extends AbstractController
      * Mettre avant la methode show sinon symfo cherche un slug new a la place la route
      *
      * @Route("/ads/new", name="ads_create")
+     * @IsGranted("ROLE_USER")
      */
 
     public function create(Request $request, EntityManagerInterface $manager){
