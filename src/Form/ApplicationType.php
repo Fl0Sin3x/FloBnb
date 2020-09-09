@@ -21,6 +21,8 @@ class ApplicationType extends AbstractType{
             'attr' => [
                 'placeholder'=>$placeholder
             ]
+
+
         ], $options);
     }
 }

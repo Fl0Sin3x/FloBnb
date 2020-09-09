@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Ad;
 use App\Entity\Booking;
+use App\Form\BookingType;
 use App\Form\BookinkType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +22,7 @@ class BookingController extends AbstractController
     public function book(Ad $ad,Request $request, EntityManagerInterface $manager){
 
         $booking = new Booking();
-        $form = $this->createForm(BookinkType::class, $booking);
+        $form = $this->createForm(BookingType::class, $booking);
 
         $form->handleRequest($request);
 
