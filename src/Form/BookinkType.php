@@ -19,7 +19,7 @@ class BookinkType extends ApplicationType
             ->add('endDate', DateType::class, $this->getConfiguration("Date de départ",
                 "La date à laquelle vous quittez les lieux", ["widget"=>"single_text"]))
             ->add('comment', TextareaType::class, $this->getConfiguration(false,
-                "Si vous avez un commentaire, n'hésitez pas à en faire part ! "))
+                "Si vous avez un commentaire, n'hésitez pas à en faire part ! ",["required"=>false]))
         ;
 
     }

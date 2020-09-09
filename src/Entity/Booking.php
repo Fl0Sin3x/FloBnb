@@ -33,11 +33,13 @@ class Booking
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\Date(message="Attention, la date d'arrivée doit être au bon format")
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\Date(message="Attention, la date de départ doit être au bon format")
      */
     private $endDate;
 
