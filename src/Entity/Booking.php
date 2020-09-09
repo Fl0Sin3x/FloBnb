@@ -3,10 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\BookingRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=BookingRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
 class Booking
 {
@@ -53,6 +55,29 @@ class Booking
      * @ORM\Column(type="text", nullable=true)
      */
     private $comment;
+
+    /**
+     * Callback appelé à chaque fois qu'on crée une réservation
+     *
+     * @ORM\PrePersist()
+     *
+     * @return void
+     */
+    public function prePersist(){
+        if(empty($this->createdAt)){
+            $this->createdAt = new \DateTime();
+        }
+
+        if(empty($this->amount)){
+            // Calcule du prix de l'annonce par le nombre de jour
+           $this->amount = $this->ad->getPrice() * $this->getDuration();
+        }
+    }
+
+    public function getDuration(){
+        $diff = $this->endDate->diff($this->startDate);
+        return $diff->days;
+    }
 
 
     public function getId(): ?int
