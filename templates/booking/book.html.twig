@@ -31,8 +31,8 @@
         </div>
 
         <div class="alert alert-light">
-            <h4>Montant du séjour : <span id="amount">...</span> &euro;</h4>
-            <span id="days">0</span> nuit(s) à {{ ad.price }} / nuit
+            <h4 class="mt-2">Montant du séjour : <span id="amount">...</span> &euro;</h4>
+            <span id="days">0</span> nuit(s) à {{ ad.price | number_format(2, ',', ' ') }} par nuit
             <hr>
 
             <h4 class="mt-4">Commentaire</h4>
