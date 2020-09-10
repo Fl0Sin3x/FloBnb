@@ -20,9 +20,12 @@ class ApplicationType extends AbstractType{
             'label'=>$label,
             'attr' => [
                 'placeholder'=>$placeholder
+
             ]
 
 
+
         ], $options);
+
     }
 }

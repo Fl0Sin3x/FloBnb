@@ -117,7 +117,7 @@ class Ad
             $resultat = range(
                 $booking->getStartDate()->getTimestamp(),
                 $booking->getEndDate()->getTimestamp(),
-                24*60*60
+                24 * 60 * 60
                 // Calcule tout les Timestamp qui existe pour chaque journée
                 // entre la date d'arriver et celle de départ
             );
