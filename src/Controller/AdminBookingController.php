@@ -35,6 +35,9 @@ class AdminBookingController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            // Calcule du montant aprés modification 0 est considéré comme nul donc il recacule
+            $booking->setAmount(0);
+
             $manager->persist($booking);
             $manager->flush();
 
@@ -51,4 +54,25 @@ class AdminBookingController extends AbstractController
             'booking' => $booking
         ]);
     }
+
+    /**
+     * Permet de supprimer une réservation
+     *
+     * @Route("/admin/booking/{id}/delete", name="admin_booking_delete")
+     *
+     * @return Response
+     */
+    public function delete(Booking $booking, EntityManagerInterface $manager) {
+        $manager->remove($booking);
+        $manager->flush();
+
+        $this->addFlash(
+            'success',
+            "La réservation a bien été supprimée"
+        );
+
+        return $this->redirectToRoute("admin_booking_index");
+    }
+
+
 }
