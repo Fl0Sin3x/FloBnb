@@ -85,7 +85,7 @@ class BookingController extends AbstractController
 
             $this->addFlash(
                 'success',
-                "Votre commentaire a bien été prise en compte"
+                "Votre commentaire a bien été "
             );
         }
 
