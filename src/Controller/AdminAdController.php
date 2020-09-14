@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Ad;
 use App\Form\AdType;
 use App\Repository\AdRepository;
+use App\Service\Paginator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,22 +17,14 @@ class AdminAdController extends AbstractController
     /**
      * @Route("/admin/ads/{page<\d+>?1}", name="admin_ads_index")
      */
-    public function index(AdRepository $repository, $page)
+    public function index(AdRepository $repository, $page, Paginator $paginator)
     {
-        $limit = 10;
-
-        $start = $page * $limit - $limit;
-        // 1 * 10 = 10 - 10 = 0
-        // 2 * 10 = 20 - 10 = 10
-
-        $total = count($repository->findAll());
-
-        $pages = ceil($total / $limit ); // 3.4 => 4
+        $paginator->setEntityClass(Ad::class)
+                  ->setLimit(10)
+                  ->setPage($page);
 
         return $this->render('admin/ad/index.html.twig', [
-            'ads' => $repository->findBy([], [], $limit, $start),
-            'pages'=> $pages,
-            'page'=> $page,
+            'paginator' => $paginator
         ]);
     }
 
