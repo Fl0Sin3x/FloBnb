@@ -77,7 +77,7 @@
                             {% set comment = booking.ad.commentFromAuthor(app.user) %}
                             {% if comment is not null %}
                                 <blockquote>
-                                    {{ comment.content }}
+                                    {{ comment.content }}K
                                 </blockquote>
                                 <strong>note :</strong>
                                 {% include 'partials/rating.html.twig' with {'rating': ad.avgRatings }%}
