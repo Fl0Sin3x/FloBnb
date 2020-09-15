@@ -26,6 +26,7 @@ class AdminCommentController extends AbstractController
             ->setLimit(5)
             ->setPage($page);
 
+
         return $this->render('admin/comment/index.html.twig', [
             'paginator' => $paginator
         ]);

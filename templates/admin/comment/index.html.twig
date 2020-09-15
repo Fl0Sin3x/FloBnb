@@ -41,6 +41,6 @@
             {% endfor %}
             </tbody>
         </table>
-        {% include'admin/partials/paginator.html.twig' with {'route': 'admin_comment_index'} %}
+        {{ paginator.display() }}
     </div>
 {% endblock %}

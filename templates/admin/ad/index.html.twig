@@ -41,7 +41,7 @@
         {% endfor %}
         </tbody>
     </table>
-    {% include'admin/partials/paginator.html.twig' with {'route': 'admin_ads_index'} %}
+    {{ paginator.display() }}
 </div>
 
 {% endblock %}
