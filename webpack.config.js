@@ -17,7 +17,7 @@ Encore
     // uncomment to define the assets of the project
     .addEntry('css/app', './assets/css/app.scss')
     .addEntry('js/app', './assets/js/app.js')
-
+    .addEntry('js/ad', './assets/js/ad.js')
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()
 
